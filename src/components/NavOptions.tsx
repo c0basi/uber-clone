@@ -5,6 +5,8 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigator/RootNavigator";
+import { useAppSelector } from "../redux/hooks";
+import { selectOrigin } from "../slices/navSlice";
 
 type Data = {
   id: string;
@@ -36,6 +38,7 @@ export type NavOptionsNavigationProp = NativeStackNavigationProp<
 const NavOptions = () => {
   const navigation = useNavigation<NavOptionsNavigationProp>();
   const tw = useTailwind();
+  const origin = useAppSelector(selectOrigin);
   return (
     <View>
       <FlatList
@@ -46,18 +49,21 @@ const NavOptions = () => {
           <TouchableOpacity
             onPress={() => navigation.navigate(item.screen)}
             style={tw("bg-gray-200 p-2 pl-6 pb-8 pt-4 m-2 w-40")}
+            disabled={!origin}
           >
-            <Image
-              style={{ width: 120, height: 120, resizeMode: "contain" }}
-              source={{ uri: item.image }}
-            />
-            <Text style={tw("mt-2 text-lg font-semibold")}>{item.title}</Text>
-            <Icon
-              style={tw("bg-black rounded-full p-1 w-9 mt-4")}
-              name="arrowright"
-              color={"white"}
-              type="antdesign"
-            />
+            <View style={tw(`${!origin ? "opacity-20" : ""}`)}>
+              <Image
+                style={{ width: 120, height: 120, resizeMode: "contain" }}
+                source={{ uri: item.image }}
+              />
+              <Text style={tw("mt-2 text-lg font-semibold")}>{item.title}</Text>
+              <Icon
+                style={tw("bg-black rounded-full p-1 w-9 mt-4")}
+                name="arrowright"
+                color={"white"}
+                type="antdesign"
+              />
+            </View>
           </TouchableOpacity>
         )}
       />
