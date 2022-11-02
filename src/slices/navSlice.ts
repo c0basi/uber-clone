@@ -1,10 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../redux/store";
 
-export class Navigation {
-  origin: string | null = null;
-  destination: string | null = null;
-  travelTimeInformation: string | null = null;
+export type Origin = {
+  lat: number;
+  lng: number;
+};
+
+export interface Navigation {
+  origin: { location: Origin; description: string } | null;
+  destination: { location: Origin; description: string } | null;
+  travelTimeInformation: string | null;
 }
 
 const initialState: Navigation = {
