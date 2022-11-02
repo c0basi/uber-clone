@@ -2,8 +2,18 @@ import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import { useTailwind } from "tailwind-rn";
 import { Icon } from "@rneui/themed";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigator/RootNavigator";
 
-const data = [
+type Data = {
+  id: string;
+  title: string;
+  image: string;
+  screen: "Home" | "MapScreen";
+};
+
+const data: Data[] = [
   {
     id: "123",
     title: "Get a ride",
@@ -14,11 +24,17 @@ const data = [
     id: "456",
     title: "Order food",
     image: "https://links.papareact.com/28w",
-    screen: "EatsScreen",
+    screen: "MapScreen",
   },
 ];
+// might need to change this
+export type NavOptionsNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Home"
+>;
 
 const NavOptions = () => {
+  const navigation = useNavigation<NavOptionsNavigationProp>();
   const tw = useTailwind();
   return (
     <View>
@@ -28,6 +44,7 @@ const NavOptions = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
+            onPress={() => navigation.navigate(item.screen)}
             style={tw("bg-gray-200 p-2 pl-6 pb-8 pt-4 m-2 w-40")}
           >
             <Image
