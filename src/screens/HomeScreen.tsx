@@ -6,6 +6,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { API_KEY } from "@env";
 import { useAppDispatch } from "../redux/hooks";
 import { setDestination, setOrigin } from "../slices/navSlice";
+import NewFavorites from "../components/NewFavorites";
 
 const HomeScreen = () => {
   const tw = useTailwind();
@@ -50,10 +51,11 @@ const HomeScreen = () => {
           debounce={400}
           minLength={2}
           enablePoweredByContainer={false}
-          placeholder="Where from"
+          placeholder="Where from?"
           query={{ key: API_KEY, language: "en" }}
         />
         <NavOptions />
+        <NewFavorites />
       </View>
     </SafeAreaView>
   );
