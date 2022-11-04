@@ -3,7 +3,7 @@ import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NavigateCard from "../components/NavigateCard";
-import RideOptions from "../components/RideOptions";
+import RideOptionsCard from "../components/RideOptionsCard";
 
 export type MapStackParamsList = {
   NavigateCard: undefined;
@@ -22,7 +22,7 @@ const MapNavigator = () => {
       />
       <MapStack.Screen
         name="RideOptionsCard"
-        component={RideOptions}
+        component={RideOptionsCard}
         options={{ headerShown: false }}
       />
     </MapStack.Navigator>
