@@ -1,15 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../redux/store";
+import { TravelResponse } from "../utils/fetchTravelData";
 
 export type Origin = {
   lat: number;
   lng: number;
 };
 
+export type TravelTime = {
+  distance: { text: string; value: number };
+  duration: { text: string; value: number };
+  status: string;
+};
+
 export interface Navigation {
   origin: { location: Origin; description: string } | null;
   destination: { location: Origin; description: string } | null;
-  travelTimeInformation: string | null;
+  travelTimeInformation: TravelTime | null;
 }
 
 const initialState: Navigation = {
