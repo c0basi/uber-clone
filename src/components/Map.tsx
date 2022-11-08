@@ -2,16 +2,22 @@ import { View, Text } from "react-native";
 import React, { useEffect, useRef } from "react";
 import MapView, { Marker } from "react-native-maps";
 import { useTailwind } from "tailwind-rn/dist";
-import { useAppSelector } from "../redux/hooks";
-import { selecDestination, selectOrigin } from "../slices/navSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import {
+  selecDestination,
+  selectOrigin,
+  setTravelTimeInformation,
+} from "../slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { API_KEY } from "@env";
+import { fetchTravelData } from "../utils/fetchTravelData";
 
 const Map = () => {
   const tw = useTailwind();
   const origin = useAppSelector(selectOrigin);
   const destination = useAppSelector(selecDestination);
+  const dispatch = useAppDispatch();
   const mapref = useRef<any>(null);
 
   useEffect(() => {
@@ -27,6 +33,23 @@ const Map = () => {
     destination?.location.lat,
     destination?.location.lng,
   ]);
+
+  useEffect(() => {
+    if (!origin || !destination) return;
+    const fetchTravel = async () => {
+      const travelData = await fetchTravelData(
+        origin.description,
+        destination.description
+      );
+      console.log("texting");
+
+      console.log(travelData);
+      dispatch(setTravelTimeInformation(travelData.rows[0].elements[0]));
+    };
+    fetchTravel();
+
+    // dispatch(setTravelTimeInformation(travelData.rows[0].element));
+  }, [origin?.description, destination?.description]);
   return (
     <>
       {origin && (
